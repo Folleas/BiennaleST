@@ -20,6 +20,19 @@ services:
     volumes_from:
       - "nginx-proxy"
 
+  vue:
+    hostname: collectifae.com
+    restart: always
+    build: ./front
+    depends_on: 
+      - node
+    ports:
+      - 8080:80
+    volumes:
+      - ./:/back
+    environment:
+      - VIRTUAL_HOST=collectifae.com
+      - LETSENCRYPT_HOST=collectifae.com
   database:
     image: mongo
     restart: always 
@@ -36,19 +49,6 @@ services:
       - 5000:5000
     volumes:
       - ./:/node-express-mongodb
-  vue:
-    hostname: collectifae.com
-    restart: always
-    build: ./front
-    depends_on: 
-      - node
-    ports:
-      - 8080:80
-    volumes:
-      - ./:/back
-    environment:
-      - VIRTUAL_HOST=collectifae.com
-      - LETSENCRYPT_HOST=collectifae.com
 
 volumes:
  my_data:
