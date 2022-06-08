@@ -7,11 +7,13 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - "/etc/nginx/vhost.d"
-      - "/usr/share/nginx/html"
-      - "/var/run/docker.sock:/tmp/docker.sock:ro"
-      - "/etc/nginx/certs"
-      - acme:/etc/acme.sh
+      - nginx_conf:/etc/nginx/conf.d:rw
+      - nginx_vhost:/etc/nginx/vhost.d:rw
+      - nginx_html:/usr/share/nginx/html:ro
+      - certificates:/etc/nginx/certs:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - nginx
 
   letsencrypt-nginx-proxy-companion:
     restart: always
@@ -50,6 +52,18 @@ services:
       - 5000:5000
     volumes:
       - ./:/node-express-mongodb
+  whoami:
+    image: jwilder/whoami
+    environment:
+      - VIRTUAL_HOST=whoami.collectifae.com
+      - LETSENCRYPT_HOST=whoami.collectifae.com
+      - LETSENCRYPT_TEST=true
+    networks:
+      - nginx
+
+
+networks:
+  nginx:
 
 volumes:
   my_data:
