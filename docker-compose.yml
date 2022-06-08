@@ -1,17 +1,12 @@
 version: '3.8'
 services:
+
   nginx-proxy:
-    restart: always
-    image: jwilder/nginx-proxy
+    image: jwilder/nginx-proxy:alpine
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - "/etc/nginx/vhost.d"
-      - "/usr/share/nginx/html"
-      - "/var/run/docker.sock:/tmp/docker.sock:ro"
-      - "/etc/nginx/certs"
-      - acme:/etc/acme.sh
       - nginx_conf:/etc/nginx/conf.d:rw
       - nginx_vhost:/etc/nginx/vhost.d:rw
       - nginx_html:/usr/share/nginx/html:ro
@@ -19,14 +14,20 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     networks:
       - nginx
+    labels:
+      - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy"
 
-  letsencrypt-nginx-proxy-companion:
-    restart: always
+  nginx-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    volumes_from:
-      - "nginx-proxy"
+      - nginx_conf:/etc/nginx/conf.d:rw
+      - nginx_vhost:/etc/nginx/vhost.d:rw
+      - nginx_html:/usr/share/nginx/html:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certificates:/etc/nginx/certs:rw
+    depends_on:
+      - nginx-proxy
+
 
   vue:
     hostname: collectifae.com
