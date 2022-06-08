@@ -11,6 +11,7 @@ services:
       - "/usr/share/nginx/html"
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
       - "/etc/nginx/certs"
+      - acme:/etc/acme.sh
 
   letsencrypt-nginx-proxy-companion:
     restart: always
