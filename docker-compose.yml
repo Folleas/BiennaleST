@@ -52,4 +52,5 @@ services:
       - ./:/node-express-mongodb
 
 volumes:
- my_data:
+  my_data:
+  acme:
