@@ -33,6 +33,9 @@ services:
     environment:
       - VIRTUAL_HOST=collectifae.com
       - LETSENCRYPT_HOST=collectifae.com
+    networks:
+      - app-network
+      
   database:
     image: mongo
     restart: always 
@@ -42,6 +45,7 @@ services:
       - my_data:/data/db 
   node:
     restart: always
+    container_name: node
     build: ./back
     depends_on: 
       - database
@@ -49,6 +53,12 @@ services:
       - 5000:5000
     volumes:
       - ./:/node-express-mongodb
+    networks:
+      - app-network
 
 volumes:
  my_data:
+
+networks:
+  app-network:
+    driver: bridge  
