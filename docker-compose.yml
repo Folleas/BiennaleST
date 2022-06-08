@@ -67,4 +67,8 @@ networks:
 
 volumes:
   my_data:
+  nginx_html:
+  nginx_vhost:
+  nginx_conf:
+  certificates:
   acme:
