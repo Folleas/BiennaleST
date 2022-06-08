@@ -61,8 +61,8 @@ services:
   whoami:
     image: jwilder/whoami
     environment:
-      - VIRTUAL_HOST=whoami.collectifae.com
-      - LETSENCRYPT_HOST=whoami.collectifae.com
+      - VIRTUAL_HOST=collectifae.com
+      - LETSENCRYPT_HOST=collectifae.com
       - LETSENCRYPT_TEST=true
     networks:
       - nginx
