@@ -24,7 +24,7 @@ export default {
         submitForm() {
             console.log(this.form.age)
             var data = this.form
-            axios.post('http://localhost:5000/api/forms', data, {})
+            axios.post('https://collectifae:5000/api/forms', data, {})
                 .then((res) => {
                     console.log("oii")
                     //Perform Success Action

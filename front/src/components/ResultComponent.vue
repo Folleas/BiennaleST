@@ -7,7 +7,7 @@ export default {
         }
     },
     created(){
-        axios.get("http://localhost:5000/api/forms")
+        axios.get("https://collectifae:5000/api/forms")
         .then(response => this.results = response.data);
     }
 }
