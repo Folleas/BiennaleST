@@ -5,7 +5,7 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-  origin: "https://collectifae.com:8080"
+  origin: "http://localhost:19006"
 };
 
 app.use(cors(corsOptions));
