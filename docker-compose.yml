@@ -36,11 +36,10 @@ services:
     build: ./front
     depends_on: 
       - node
-    ports:
-      - 8080:80
     volumes:
       - ./:/back
     environment:
+      - VIRTUAL_PORT=80
       - VIRTUAL_HOST=collectifae.com
       - LETSENCRYPT_HOST=collectifae.com
   database:
