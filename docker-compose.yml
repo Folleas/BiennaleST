@@ -1,33 +1,32 @@
 version: '3.8'
 services:
-
   nginx-proxy:
-    image: jwilder/nginx-proxy:alpine
+    image: nginxproxy/nginx-proxy
+    container_name: nginx-proxy
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - certs:/etc/nginx/certs 
-      - vhost:/etc/nginx/vhost.d 
-      - html:/usr/share/nginx/html 
-      - /var/run/docker.sock:/tmp/docker.sock:ro 
-      - nginxproxy/nginx-proxy
-    networks:
-      - nginx
-    labels:
-      - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy"
+      - conf:/etc/nginx/conf.d
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - certs:/etc/nginx/certs:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    network_mode: bridge
 
-  nginx-letsencrypt:
+  acme-companion:
     image: nginxproxy/acme-companion
+    container_name: nginx-proxy-acme
+    environment:
+      - DEFAULT_EMAIL=rayann.folleas@gmail.com
     volumes_from:
       - nginx-proxy
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs:rw
       - acme:/etc/acme.sh
-    environment:
-      - "DEFAULT_EMAIL=rayann.folleas@gmail.com"
-    depends_on:
-      - nginx-proxy
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    network_mode: bridge
+
 
 
   vue:
@@ -60,14 +59,10 @@ services:
     volumes:
       - ./:/node-express-mongodb
 
-
-networks:
-  nginx:
-
 volumes:
   my_data:
-  acme:
-  html:
-  vhost:
   conf:
+  vhost:
+  html:
   certs:
+  acme:
