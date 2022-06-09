@@ -3,11 +3,13 @@ import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>
-      <!-- <nav>
+  <div :style="{ 'background-image': 'url(./fond.png)' }">
+    <!-- <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav> -->
-  <RouterView />
+    <RouterView />
+  </div>
 </template>
 
 <style>
@@ -23,6 +25,7 @@ import { RouterLink, RouterView } from "vue-router";
 p {
   font-family: "Logisoso";
 }
+
 h1 {
   font-family: "le-murmure";
   font-weight: bold;

@@ -19,6 +19,7 @@ services:
     container_name: nginx-proxy-acme
     environment:
       - DEFAULT_EMAIL=rayann.folleas@gmail.com
+      - ACME_CA_URI=https://acme-staging-v02.api.letsencrypt.org/directory
     volumes_from:
       - nginx-proxy
     volumes:

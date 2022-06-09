@@ -56,7 +56,6 @@ export default {
 <template>
     <button @click="submitForm()">Test Button</button>
     <div>
-        <h2> Contact US </h2>
         <form v-on:submit.prevent="submitForm">
             <div class="form-group">
                 <label for="number">Quel âge avez-vous?</label>
@@ -121,3 +120,12 @@ export default {
         </file-selector>
     </div>
 </template>
+
+<style>
+@import "@/assets/base.css";
+
+form {
+    width: 30%;
+    margin-left: 25px;
+}
+</style>

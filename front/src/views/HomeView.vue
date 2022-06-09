@@ -5,7 +5,7 @@ import ResultComponent from "../components/ResultComponent.vue";
 
 <template>
   <main>
-    <h1>FORMULAIRE D'ENQUÊTE</h1>
+    <img src="formulairedenquete2.png" alt="Formulaire" width="500"> 
     <FormComponent />
     <ResultComponent />
   </main>
