@@ -7,11 +7,11 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - nginx_conf:/etc/nginx/conf.d:rw
-      - nginx_vhost:/etc/nginx/vhost.d:rw
-      - nginx_html:/usr/share/nginx/html:ro
-      - certificates:/etc/nginx/certs:ro
-      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs 
+      - vhost:/etc/nginx/vhost.d 
+      - html:/usr/share/nginx/html 
+      - /var/run/docker.sock:/tmp/docker.sock:ro 
+      - nginxproxy/nginx-proxy
     networks:
       - nginx
     labels:
@@ -19,12 +19,13 @@ services:
 
   nginx-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
+    volumes_from:
+      - nginx-proxy
     volumes:
-      - nginx_conf:/etc/nginx/conf.d:rw
-      - nginx_vhost:/etc/nginx/vhost.d:rw
-      - nginx_html:/usr/share/nginx/html:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - certificates:/etc/nginx/certs:rw
+      - acme:/etc/acme.sh
+    environment:
+      - "DEFAULT_EMAIL=rayann.folleas@gmail.com"
     depends_on:
       - nginx-proxy
 
@@ -74,7 +75,7 @@ networks:
 volumes:
   my_data:
   acme:
-  nginx_html:
-  nginx_vhost:
-  nginx_conf:
-  certificates:
+  html:
+  vhost:
+  conf:
+  certs:
